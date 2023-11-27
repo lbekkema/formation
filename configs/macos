@@ -7,7 +7,6 @@ echo "Configuring Screenshots"
 
 SCREENSHOTS_FOLDER="$HOME/Screenshots"
 
-defaults write com.apple.screencapture type jpg
 defaults write com.apple.screencapture location $SCREENSHOTS_FOLDER
 
 ###############################################################################
