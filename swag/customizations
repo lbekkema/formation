@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+DIRECTORIES=(
+  $HOME/Development
+  $HOME/Screenshots
+  $HOME/.warp/themes
+)
+
+step "Making directories…"
+for dir in ${DIRECTORIES[@]}; do
+  mkd $dir
+done
+
+step "Downloading Warp themes…"
+warp=$HOME/.warp/themes
+if [ ! -d "$warp/ayu_{mirage,dark}.yaml" ]; then
+  curl -O "https://raw.githubusercontent.com/wkei/ayu-warp/main/themes/ayu_{mirage,dark}.yaml" --output-dir "$warp"
+  print_success "Warp themes successfully downloaded"
+else 
+  print_success_muted "Warp themes already downloaded. Skipping"
+fi
+
+step "Copying .zshrc…"
+zshrc=$cwd/configs/.zshrc
+if [ -e $zshrc ]; then
+  cp $zshrc $HOME
+  print_success ".zshrc file successfully copied"
+else 
+  print_success_muted "No .zshrc file found. Skipping"
+fi
+
+step "Copy .gitconfig…"
+gitconfig=$cwd/configs/.gitconfig
+if [ -e $gitconfig ]; then
+  cp $gitconfig $HOME
+  print_success ".gitconfig file successfully copied"
+else
+  print_success_muted "No .gitconfig file found. Skipping"
+fi
+
+step "Copying MacOS configuration…"
+macos=$cwd/configs/macos
+if [ -e $macos ]; then
+  . $macos
+  print_success "MacOS configuration successful"
+else 
+  print_success_muted "No MacOS configuration file found. Skipping"
+fi
